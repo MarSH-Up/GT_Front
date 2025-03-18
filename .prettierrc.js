@@ -11,12 +11,7 @@ module.exports = {
   importOrder: [
     '^@mui/(.*)$',
     '^components/(.*)$',
-    '^design-system/(.*)$',
-    '^modules/Buyer/(.*)$',
-    '^modules/Commerce/(.*)$',
-    '^modules/(.*)$',
-    '^redux/(.*)$',
-    '^types/(.*)$',
+    '^design/(.*)$',
     '^utils/(.*)$',
     '^[./]'
   ],
