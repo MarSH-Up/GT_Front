@@ -7,7 +7,6 @@ import { menuItems } from "../../utils/menuItems";
 const FullScreen = () => {
 	const navigate = useNavigate();
 
-
 	return (
 		<>
 			<AppBar
