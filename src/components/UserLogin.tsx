@@ -105,7 +105,7 @@ export const UserLogin: React.FC = () => {
                     sx={{
                       '& input': {
                         p: '0.8125rem 1.0625rem',
-                        fontSize: '1.125rem', // Aligned font size with AdminLogin
+                        fontSize: '1.125rem',
                         lineHeight: '100%',
                       },
                     }}
