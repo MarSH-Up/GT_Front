@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Grid2, Typography, Fade, Slide } from '@mui/material';
+import { Box, Button, Grid2, Fade, Slide } from '@mui/material';
 import { UserLogin } from '../components/UserLogin';
 import { AdminLogin } from '../components/AdminLogin';
 import background from '../assets/users.jpg';

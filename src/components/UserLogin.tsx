@@ -4,6 +4,7 @@ import {
   TextField,
   CircularProgress,
   Button,
+  InputAdornment,
 } from '@mui/material';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
@@ -11,8 +12,14 @@ import { Colors } from '../design/theme';
 import LoginLogo from '../assets/logofinalGT.png';
 import { Formik, Form } from 'formik';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import RoutesEnum from '../types/routes.enum';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { userLogin } from '../redux/gt/gt.action';
 
 export const UserLogin: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,7 +33,17 @@ export const UserLogin: React.FC = () => {
   });
 
   const handleSubmit = async (values: { email: string; password: string }) => {
-    console.log(values);
+    setIsLoading(true);
+    try {
+      const user = await dispatch(userLogin(values));
+      if (user.meta.requestStatus === 'fulfilled') navigate(RoutesEnum.HOME);
+
+      navigate(RoutesEnum.HOME);
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -110,7 +127,7 @@ export const UserLogin: React.FC = () => {
                       },
                     }}
                     value={formik.values.email}
-                    onChange={(e) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       formik.setFieldValue('email', e.target.value);
                     }}
                     error={!!formik.errors.email}
@@ -123,11 +140,11 @@ export const UserLogin: React.FC = () => {
                     fullWidth
                     placeholder='Contraseña *'
                     name='password'
-                    type={!showPassword ? 'password' : ''}
+                    type={showPassword ? 'text' : 'password'}
                     id='password'
                     autoComplete='password'
                     value={formik.values.password}
-                    onChange={(e) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       formik.setFieldValue('password', e.target.value);
                     }}
                     sx={{
@@ -138,22 +155,21 @@ export const UserLogin: React.FC = () => {
                       },
                     }}
                     error={!!formik.errors.password}
-                    slotProps={{
-                      input: {
-                        endAdornment: (
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
                           <Box
                             sx={{
                               display: 'flex',
                               alignItems: 'center',
                               cursor: 'pointer',
                             }}
-                            onMouseEnter={() => setShowPassword(true)}
-                            onMouseLeave={() => setShowPassword(false)}
+                            onClick={() => setShowPassword(!showPassword)}
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </Box>
-                        ),
-                      },
+                        </InputAdornment>
+                      ),
                     }}
                   />
                 </Box>
@@ -178,6 +194,7 @@ export const UserLogin: React.FC = () => {
                       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
                     },
                   }}
+                  disabled={isLoading}
                 >
                   {isLoading ? (
                     <CircularProgress

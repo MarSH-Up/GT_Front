@@ -27,6 +27,7 @@ export const AdminLogin: React.FC = () => {
 
   const handleSubmit = async (values: { email: string; password: string }) => {
     console.log(values);
+    setIsLoading(true);
   };
 
   return (
