@@ -1,12 +1,12 @@
-import axios, { AxiosInstance } from 'axios';
-import { getLocalStorage } from '../utils/localStorage';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { getLocalStorage, removeLocalStorage } from '../utils/localStorage';
 
 export const baseURL =
-  process.env.REACT_APP_BACK_URL ?? 'http://localhost:4000';
+  import.meta.env.VITE_REACT_APP_API ?? 'http://localhost:3000';
 
 export const api: AxiosInstance = axios.create({
   baseURL,
-  withCredentials: false
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
@@ -15,3 +15,15 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error: { response: AxiosResponse; config: AxiosRequestConfig }) => {
+    if (error.response?.status === 401) {
+      removeLocalStorage('token');
+      document.location.href = '/login';
+    }
+
+    return Promise.reject(error);
+  },
+);

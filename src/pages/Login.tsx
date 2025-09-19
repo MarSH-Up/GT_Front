@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { Box, Button, Grid2, Fade, Slide } from '@mui/material';
+import React from 'react';
+import { Box, Grid2 } from '@mui/material';
 import { UserLogin } from '../components/UserLogin';
-import { AdminLogin } from '../components/AdminLogin';
 import background from '../assets/users.jpg';
 
 const Login: React.FC = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
-  const handleToggle = () => setIsAdmin((prev) => !prev);
 
   return (
     <Grid2
@@ -55,64 +52,10 @@ const Login: React.FC = () => {
             justifyContent: 'center',
           }}
         >
-          {/* Container for slides with absolute positioning */}
+          {/* Single login form */}
           <Box sx={{ position: 'relative', flex: 1 }}>
-            {/* Slide in form */}
-            <Slide
-              direction='left'
-              in={!isAdmin}
-              mountOnEnter
-              unmountOnExit
-              timeout={500}
-            >
-              <Box sx={{ position: 'absolute', width: '100%', top: 0 }}>
-                <UserLogin />
-              </Box>
-            </Slide>
-
-            <Slide
-              direction='right'
-              in={isAdmin}
-              mountOnEnter
-              unmountOnExit
-              timeout={500}
-            >
-              <Box sx={{ position: 'absolute', width: '100%', top: 0 }}>
-                <AdminLogin />
-              </Box>
-            </Slide>
+            <UserLogin />
           </Box>
-
-          {/* Toggle Button */}
-          <Fade in timeout={500}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                onClick={handleToggle}
-                variant='outlined'
-                color='primary'
-                sx={{
-                  zIndex: 1000,
-                  mt: 4,
-                  textTransform: 'none',
-                  width: 'fit-content',
-                  minWidth: '8rem',
-                  maxWidth: '8rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '12px',
-                  transition: 'all 0.2s ease-in-out',
-                  '&:hover': {
-                    transform: 'scale(1.02)',
-                    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                  },
-                  fontSize: '1rem',
-                }}
-              >
-                {isAdmin ? 'Usuario' : 'Administrador'}
-              </Button>
-            </Box>
-          </Fade>
         </Box>
       </Grid2>
     </Grid2>

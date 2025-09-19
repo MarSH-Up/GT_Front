@@ -2,10 +2,12 @@ import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Colors } from '../theme';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { menuItems } from '../../utils/menuItems';
+import { useMenuItems } from '../../hooks/useMenuItems';
+import { removeLocalStorage } from '../../utils/localStorage';
 
 const FullScreen = () => {
   const navigate = useNavigate();
+  const menuItems = useMenuItems();
 
   return (
     <>
@@ -82,8 +84,8 @@ const FullScreen = () => {
                       },
                     }}
                     onClick={() => {
-                      if (item.name === 'Cerrar Sesión') {
-                        localStorage.removeItem('token');
+                      if (item.isLogout) {
+                        removeLocalStorage('token');
                         navigate('/login');
                       } else {
                         navigate(item.route);
